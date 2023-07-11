@@ -71,7 +71,11 @@ document.getElementById("apply").addEventListener("click", () => {
 });
 
 
-
+const infoSVG = document.getElementById("infoSVG");
+infoSVG.addEventListener("click", () => {
+    dm.deactivate();
+    document.getElementById("result").value = dm.generate();
+});
 
 
 

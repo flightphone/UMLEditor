@@ -47,6 +47,17 @@ let resizeD = (d, dx, dy, startX, startY, w, h) => {
     return nd;
 }
 
+let getRectFromBez = (d) => {
+    let res = []
+    let a = d.split(" ");
+    for (let i = 2; i < 4; i++) {
+        let xy = a[i].split(",")
+        let x = parseFloat(xy[0]);
+        let y = parseFloat(xy[1]);
+        res.push({ x: x, y: y });
+    }
+    return res;
+}
 
 let moveElement = (el, dx, dy) => {
     if (!el)
@@ -201,6 +212,13 @@ let resizeElement = (el, dx, dy, startX, startY, w, h) => {
             let d = che.getAttribute("d");
             d = resizeD(d, dx, dy, startX, startY, w, h);
             che.setAttribute("d", d);
+            if (el.dataset.type == "arrow") {
+                let a = getRectFromBez(d);
+                x1 = a[0].x;
+                y1 = a[0].y;
+                x2 = a[1].x;
+                y2 = a[1].y;
+            }
         }
 
     }
@@ -353,7 +371,7 @@ function DrawCnvas(svg, images, editcontrol) {
     this.createCurve = () => {
         //create path
         let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        group.setAttribute("data-type", "curve");
+        group.setAttribute("data-type", "arrow");
         let p = document.createElementNS("http://www.w3.org/2000/svg", "path");
         let points = [];
         for (let i = 0; i < 4; i++)
@@ -519,6 +537,35 @@ function DrawCnvas(svg, images, editcontrol) {
                 this.mSVG.appendChild(this.activeObject);
         }
     });
+
+    this.generate = () => {
+        let style = `<style>
+g {
+    cursor:pointer
+}
+
+.image-line {
+    stroke: #A80036;
+    stroke-width: 1;
+    fill:none;
+}
+
+.image-arrow {
+    fill: #A80036;
+}
+.image-rect {
+    fill: none;
+}
+
+.image-mapper-point {
+    fill: none;
+    stroke: rgba(0, 0, 0, 0);
+}
+</style>`
+        let res = this.mSVG.outerHTML;
+        res = res.replace("<!--CopyRight-->", style)
+        return res;
+    }
 }
 
 function ArrowObject(x1, y1, x2, y2, w, h) {
