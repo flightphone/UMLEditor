@@ -39,7 +39,10 @@ document.getElementById("image").addEventListener("click", (e) => {
 
 
 document.getElementById("text").addEventListener("click", (e) => {
-    dm.mode = "text";
+    dm.deactivate();
+    dm.ncur = -1;
+    dm.mode = "curve";
+    
     clearBut(e);
 });
 

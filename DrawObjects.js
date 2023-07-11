@@ -212,6 +212,7 @@ function DrawCnvas(svg, images, editcontrol) {
     this.arrowW = 12;
     this.arrowH = 8;
     this.mSVG = svg;
+    this.ncur = 4;
     this.editcontrol = editcontrol;
     this.mode = "move";
     this.r = 7;
@@ -298,6 +299,8 @@ function DrawCnvas(svg, images, editcontrol) {
     }
 
     this.deactivate = () => {
+        if (this.activeObject == this.mSVG)
+            return;
         if (this.activeObject) {
             try {
                 for (let i = 0; i < 4; i++)
@@ -347,6 +350,27 @@ function DrawCnvas(svg, images, editcontrol) {
         this.deactivate();
     }
 
+    this.createCurve = () => {
+        //create path
+        let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.setAttribute("data-type", "curve");
+        let p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        let points = [];
+        for (let i = 0; i < 4; i++)
+            points.push({
+                cx: this.circles[i].cx.baseVal.value,
+                cy: this.circles[i].cy.baseVal.value
+            })
+        let d = `M${points[0].cx},${points[0].cy} C${points[1].cx},${points[1].cy} ${points[2].cx},${points[2].cy} ${points[3].cx},${points[3].cy}`;
+        console.log(d);
+        p.setAttribute("class", "image-line");
+        p.setAttribute("d", d);
+        group.appendChild(p);
+        let a = new ArrowObject(points[2].cx, points[2].cy, points[3].cx, points[3].cy, this.arrowW, this.arrowH);
+        this.drawPoligon(a.transform, 0, group);
+        this.activeObject.appendChild(group);
+    }
+
     //select image
     images.addEventListener("mousedown", (e) => {
         if (e.target.parentElement.tagName == "g") {
@@ -378,6 +402,26 @@ function DrawCnvas(svg, images, editcontrol) {
     this.mSVG.addEventListener("mousedown", (e) => {
         this.x = e.offsetX;
         this.y = e.offsetY;
+        //=====================curve==============================================
+        if (this.mode == "curve") {
+            if (this.ncur == -1 || this.ncur == 4) {
+                this.ncur = 0;
+                this.deactivate();
+                this.activeObject = this.mSVG;
+            }
+            this.circles[this.ncur].setAttribute("cx", this.x);
+            this.circles[this.ncur].setAttribute("cy", this.y);
+            this.activeObject.appendChild(this.circles[this.ncur]);
+            this.ncur += 1;
+
+            if (this.ncur == 4) {
+                this.createCurve();
+            }
+
+
+        }
+
+
         //====================================add image============================
         if (this.mode == "add") {
             //add new image

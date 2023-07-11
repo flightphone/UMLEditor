@@ -5,6 +5,7 @@ g {
 .image-line {
     stroke: #A80036;
     stroke-width: 1;
+    fill:none;
 }
 
 .image-arrow {
