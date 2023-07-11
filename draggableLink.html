@@ -1,0 +1,321 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <body>
+  <script src="https://unpkg.com/gojs@2.3.9/release/go.js"></script>
+  <p>
+    This is a minimalist HTML and JavaScript skeleton of the GoJS Sample
+    <a href="https://gojs.net/latest/samples/draggableLink.html">draggableLink.html</a>. It was automatically generated from a button on the sample page,
+    and does not contain the full HTML. It is intended as a starting point to adapt for your own usage.
+    For many samples, you may need to inspect the
+    <a href="https://github.com/NorthwoodsSoftware/GoJS/blob/master/samples/draggableLink.html">full source on Github</a>
+    and copy other files or scripts.
+  </p>
+  <div id="allSampleContent" class="p-4 w-full">
+  <script src="https://unpkg.com/gojs@2.3.9/extensions/Figures.js"></script>
+
+    <script id="code">
+    function init() {
+
+      // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
+      // For details, see https://gojs.net/latest/intro/buildingObjects.html
+      const $ = go.GraphObject.make;  // for conciseness in defining templates
+
+      myDiagram =
+        new go.Diagram("myDiagramDiv",  // must name or refer to the DIV HTML element
+          {
+            grid: $(go.Panel, "Grid",
+              $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
+              $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
+              $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
+              $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
+            ),
+            "draggingTool.dragsLink": true,
+            "draggingTool.isGridSnapEnabled": true,
+            "linkingTool.isUnconnectedLinkValid": true,
+            "linkingTool.portGravity": 20,
+            "relinkingTool.isUnconnectedLinkValid": true,
+            "relinkingTool.portGravity": 20,
+            "relinkingTool.fromHandleArchetype":
+              $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
+            "relinkingTool.toHandleArchetype":
+              $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
+            "linkReshapingTool.handleArchetype":
+              $(go.Shape, "Diamond", { desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
+            "rotatingTool.handleAngle": 270,
+            "rotatingTool.handleDistance": 30,
+            "rotatingTool.snapAngleMultiple": 15,
+            "rotatingTool.snapAngleEpsilon": 15,
+            "undoManager.isEnabled": true
+          });
+
+      // when the document is modified, add a "*" to the title and enable the "Save" button
+      myDiagram.addDiagramListener("Modified", e => {
+        var button = document.getElementById("SaveButton");
+        if (button) button.disabled = !myDiagram.isModified;
+        var idx = document.title.indexOf("*");
+        if (myDiagram.isModified) {
+          if (idx < 0) document.title += "*";
+        } else {
+          if (idx >= 0) document.title = document.title.slice(0, idx);
+        }
+      });
+
+      // Define a function for creating a "port" that is normally transparent.
+      // The "name" is used as the GraphObject.portId, the "spot" is used to control how links connect
+      // and where the port is positioned on the node, and the boolean "output" and "input" arguments
+      // control whether the user can draw links from or to the port.
+      function makePort(name, spot, output, input) {
+        // the port is basically just a small transparent circle
+        return $(go.Shape, "Circle",
+          {
+            fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
+            stroke: null,
+            desiredSize: new go.Size(7, 7),
+            alignment: spot,  // align the port on the main Shape
+            alignmentFocus: spot,  // just inside the Shape
+            portId: name,  // declare this object to be a "port"
+            fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
+            fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
+            cursor: "pointer"  // show a different cursor to indicate potential link point
+          });
+      }
+
+      var nodeSelectionAdornmentTemplate =
+        $(go.Adornment, "Auto",
+          $(go.Shape, { fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] }),
+          $(go.Placeholder)
+        );
+
+      var nodeResizeAdornmentTemplate =
+        $(go.Adornment, "Spot",
+          { locationSpot: go.Spot.Right },
+          $(go.Placeholder),
+          $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.TopRight, cursor: "ne-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+
+          $(go.Shape, { alignment: go.Spot.Left, cursor: "w-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.Right, cursor: "e-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+
+          $(go.Shape, { alignment: go.Spot.BottomLeft, cursor: "se-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.Bottom, cursor: "s-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.BottomRight, cursor: "sw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" })
+        );
+
+      var nodeRotateAdornmentTemplate =
+        $(go.Adornment,
+          { locationSpot: go.Spot.Center, locationObjectName: "ELLIPSE" },
+          $(go.Shape, "Ellipse", { name: "ELLIPSE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })
+        );
+
+      myDiagram.nodeTemplate =
+        $(go.Node, "Spot",
+          { locationSpot: go.Spot.Center },
+          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+          { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
+          { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
+          { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
+          new go.Binding("angle").makeTwoWay(),
+          // the main object is a Panel that surrounds a TextBlock with a Shape
+          $(go.Panel, "Auto",
+            { name: "PANEL" },
+            new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify),
+            $(go.Shape, "Rectangle",  // default figure
+              {
+                portId: "", // the default port: if no spot on link data, use closest side
+                fromLinkable: true, toLinkable: true, cursor: "pointer",
+                fill: "white",  // default color
+                strokeWidth: 2
+              },
+              new go.Binding("figure"),
+              new go.Binding("fill")),
+            $(go.TextBlock,
+              {
+                font: "bold 10pt Helvetica, Arial, sans-serif",
+                margin: 8,
+                maxSize: new go.Size(160, NaN),
+                wrap: go.TextBlock.WrapFit,
+                editable: true
+              },
+              new go.Binding("text").makeTwoWay())
+          ),
+          // four small named ports, one on each side:
+          makePort("T", go.Spot.Top, false, true),
+          makePort("L", go.Spot.Left, true, true),
+          makePort("R", go.Spot.Right, true, true),
+          makePort("B", go.Spot.Bottom, true, false),
+          { // handle mouse enter/leave events to show/hide the ports
+            mouseEnter: (e, node) => showSmallPorts(node, true),
+            mouseLeave: (e, node) => showSmallPorts(node, false)
+          }
+        );
+
+      function showSmallPorts(node, show) {
+        node.ports.each(port => {
+          if (port.portId !== "") {  // don't change the default port, which is the big shape
+            port.fill = show ? "rgba(0,0,0,.3)" : null;
+          }
+        });
+      }
+
+      var linkSelectionAdornmentTemplate =
+        $(go.Adornment, "Link",
+          $(go.Shape,
+            // isPanelMain declares that this Shape shares the Link.geometry
+            { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 })  // use selection object's strokeWidth
+        );
+
+      myDiagram.linkTemplate =
+        $(go.Link,  // the whole link panel
+          { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
+          { relinkableFrom: true, relinkableTo: true, reshapable: true },
+          {
+            routing: go.Link.AvoidsNodes,
+            curve: go.Link.JumpOver,
+            corner: 5,
+            toShortLength: 4
+          },
+          new go.Binding("points").makeTwoWay(),
+          $(go.Shape,  // the link path shape
+            { isPanelMain: true, strokeWidth: 2 }),
+          $(go.Shape,  // the arrowhead
+            { toArrow: "Standard", stroke: null }),
+          $(go.Panel, "Auto",
+            new go.Binding("visible", "isSelected").ofObject(),
+            $(go.Shape, "RoundedRectangle",  // the link shape
+              { fill: "#F8F8F8", stroke: null }),
+            $(go.TextBlock,
+              {
+                textAlign: "center",
+                font: "10pt helvetica, arial, sans-serif",
+                stroke: "#919191",
+                margin: 2,
+                minSize: new go.Size(10, NaN),
+                editable: true
+              },
+              new go.Binding("text").makeTwoWay())
+          )
+        );
+
+      load();  // load an initial diagram from some JSON text
+
+      // initialize the Palette that is on the left side of the page
+      myPalette =
+        new go.Palette("myPaletteDiv",  // must name or refer to the DIV HTML element
+          {
+            maxSelectionCount: 1,
+            nodeTemplateMap: myDiagram.nodeTemplateMap,  // share the templates used by myDiagram
+            linkTemplate: // simplify the link template, just in this Palette
+              $(go.Link,
+                { // because the GridLayout.alignment is Location and the nodes have locationSpot == Spot.Center,
+                  // to line up the Link in the same manner we have to pretend the Link has the same location spot
+                  locationSpot: go.Spot.Center,
+                  selectionAdornmentTemplate:
+                    $(go.Adornment, "Link",
+                      { locationSpot: go.Spot.Center },
+                      $(go.Shape,
+                        { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 }),
+                      $(go.Shape,  // the arrowhead
+                        { toArrow: "Standard", stroke: null })
+                    )
+                },
+                {
+                  routing: go.Link.AvoidsNodes,
+                  curve: go.Link.JumpOver,
+                  corner: 5,
+                  toShortLength: 4
+                },
+                new go.Binding("points"),
+                $(go.Shape,  // the link path shape
+                  { isPanelMain: true, strokeWidth: 2 }),
+                $(go.Shape,  // the arrowhead
+                  { toArrow: "Standard", stroke: null })
+              ),
+            model: new go.GraphLinksModel([  // specify the contents of the Palette
+              { text: "Start", figure: "Ellipse", "size":"75 75", fill: "#00AD5F" },
+              { text: "Step" },
+              { text: "DB", figure: "Database", fill: "lightgray" },
+              { text: "???", figure: "Diamond", fill: "lightskyblue" },
+              { text: "End", figure: "Ellipse", "size":"75 75", fill: "#CE0620" },
+              { text: "Comment", figure: "RoundedRectangle", fill: "lightyellow" }
+            ], [
+                // the Palette also has a disconnected Link, which the user can drag-and-drop
+                { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(30, 0), new go.Point(30, 40), new go.Point(60, 40)]) }
+              ])
+          });
+    }
+
+
+    // Show the diagram's model in JSON format that the user may edit
+    function save() {
+      saveDiagramProperties();  // do this first, before writing to JSON
+      document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+      myDiagram.isModified = false;
+    }
+    function load() {
+      myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+      loadDiagramProperties();  // do this after the Model.modelData has been brought into memory
+    }
+
+    function saveDiagramProperties() {
+      myDiagram.model.modelData.position = go.Point.stringify(myDiagram.position);
+    }
+    function loadDiagramProperties(e) {
+      // set Diagram.initialPosition, not Diagram.position, to handle initialization side-effects
+      var pos = myDiagram.model.modelData.position;
+      if (pos) myDiagram.initialPosition = go.Point.parse(pos);
+    }
+    window.addEventListener('DOMContentLoaded', init);
+  
+  </script>
+
+<div id="sample">
+  <div style="width: 100%; display: flex; justify-content: space-between">
+    <div id="myPaletteDiv" style="width: 105px; margin-right: 2px; background-color: whitesmoke; border: 1px solid black; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); cursor: pointer;"><canvas tabindex="0" width="156" height="928" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 104px; height: 619px; cursor: pointer;">This text is displayed if your browser does not support the Canvas HTML element.</canvas><div style="position: absolute; overflow: auto; width: 104px; height: 619px; z-index: 1;"><div style="position: absolute; width: 1px; height: 1px;"></div></div></div>
+    <div id="myDiagramDiv" style="flex-grow: 1; height: 620px; border: 1px solid black; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0);"><canvas tabindex="0" width="1398" height="928" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 932px; height: 619px;">This text is displayed if your browser does not support the Canvas HTML element.</canvas><div style="position: absolute; overflow: auto; width: 932px; height: 619px; z-index: 1;"><div style="position: absolute; width: 1px; height: 1px;"></div></div></div>
+  </div>
+  <p>
+    This sample demonstrates the ability for the user to drag around a Link as if it were a Node.
+    When either end of the link passes over a valid port, the port is highlighted.
+  </p>
+  <p>
+    The link-dragging functionality is enabled by setting some or all of the following properties:
+    <a href="../api/symbols/DraggingTool.html#dragsLink" target="api">DraggingTool.dragsLink</a>, <a href="../api/symbols/LinkingTool.html#isUnconnectedLinkValid" target="api">LinkingTool.isUnconnectedLinkValid</a>, and
+    <a href="../api/symbols/RelinkingTool.html#isUnconnectedLinkValid" target="api">RelinkingTool.isUnconnectedLinkValid</a>.
+  </p>
+  <p>
+    Note that a Link is present in the <a href="../api/symbols/Palette.html" target="api">Palette</a> so that it too can be dragged out and onto
+    the main Diagram.  Because links are not automatically routed when either end is not connected
+    with a Node, the route is provided explicitly when that Palette item is defined.
+  </p>
+  <p>
+    This also demonstrates several custom Adornments:
+    <a href="../api/symbols/Part.html#selectionAdornmentTemplate" target="api">Part.selectionAdornmentTemplate</a>, <a href="../api/symbols/Part.html#resizeAdornmentTemplate" target="api">Part.resizeAdornmentTemplate</a>, and
+    <a href="../api/symbols/Part.html#rotateAdornmentTemplate" target="api">Part.rotateAdornmentTemplate</a>.
+  </p>
+  <p>
+    Finally this sample demonstrates saving and restoring the <a href="../api/symbols/Diagram.html#position" target="api">Diagram.position</a> as a property
+    on the <a href="../api/symbols/Model.html#modelData" target="api">Model.modelData</a> object that is automatically saved and restored when calling <a href="../api/symbols/Model.html#toJson" target="api">Model.toJson</a>
+    and <a href="../api/symbols/Model.html#static-fromJson" target="api">Model.fromJson</a>.
+  </p>
+  <div>
+    <div>
+      <button id="SaveButton" onclick="save()" disabled="">Save</button>
+      <button onclick="load()">Load</button>
+      Diagram Model saved in JSON format:
+    </div>
+    <textarea id="mySavedModel" style="width:100%;height:300px">{ "class": "go.GraphLinksModel",
+  "linkFromPortIdProperty": "fromPort",
+  "linkToPortIdProperty": "toPort",
+  "nodeDataArray": [
+ ],
+  "linkDataArray": [
+ ]}
+    </textarea>
+  </div>
+<p class="text-xs">GoJS version 2.3.9. Copyright 1998-2023 by Northwoods Software.</p></div>
+    <p><a href="https://github.com/NorthwoodsSoftware/GoJS/blob/master/samples/draggableLink.html" target="_blank">View this sample page's source on GitHub</a></p></div>
+  </body>
+  </html>

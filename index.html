@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Diagram Editor</title>
+</head>
+
+<body>
+
+    <!-- Modal -->
+    <div class="modal modal-xl" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Select Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <svg id="images" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        contentStyleType="text/css" height="453px" preserveAspectRatio="none"
+                        style="width:1097px;height:453px;background:#FFFFFF;" version="1.1" viewBox="0 0 1097 453"
+                        width="1097px" zoomAndPan="magnify">
+                        <defs>
+                            <filter height="300%" id="f5lvnrk2dfmrz" width="300%" x="-1" y="-1">
+                                <feGaussianBlur result="blurOut" stdDeviation="2.0" />
+                                <feColorMatrix in="blurOut" result="blurOut2" type="matrix"
+                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0" />
+                                <feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3" />
+                                <feBlend in="SourceGraphic" in2="blurOut3" mode="normal" />
+                            </filter>
+                        </defs>
+                        <g><!--cluster node-->
+                            <g id="cluster_node">
+                                <polygon class="image-rect" filter="url(#f5lvnrk2dfmrz)"
+                                    points="570,16,580,6,685,6,685,72,675,82,570,82,570,16"
+                                    style="stroke:#000000;stroke-width:1.5;" />
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="675" x2="685" y1="16" y2="6" />
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="570" x2="675" y1="16" y2="16" />
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="675" x2="675" y1="16" y2="82" />
+                                <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold"
+                                        lengthAdjust="spacing" x="604" y="31.9951">node</text>
+                            </g><!--cluster package-->
+                            <g id="cluster_package">
+                                <polygon class="image-rect" filter="url(#f5lvnrk2dfmrz)"
+                                    points="709,11,782,11,789,33.2969,792,33.2969,792,82,709,82,709,11"
+                                    style="stroke:#000000;stroke-width:1.5;" />
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="709" x2="789" y1="33.2969"
+                                    y2="33.2969" />
+                                <g>
+                                    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold"
+                                        lengthAdjust="spacing" x="713" y="25.9951">package</text>
+                                </g>
+                            </g><!--cluster frame-->
+                            <g id="cluster_frame">
+                                <rect class="image-rect" filter="url(#f5lvnrk2dfmrz)" height="71"
+                                    style="stroke:#A80036;stroke-width:1.0;" width="64" x="816" y="11" />
+                                <path d="M874,11 L874,20.2969 L864,30.2969 L816,30.2969 " fill="none"
+                                    style="stroke:#A80036;stroke-width:1.0;" />
+                                <g>
+                                    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold"
+                                        lengthAdjust="spacing" x="819" y="24.9951">frame</text>
+                                </g>
+                            </g><!--cluster folder-->
+                            <g id="cluster_folder">
+                                <polygon class="image-rect" filter="url(#f5lvnrk2dfmrz)"
+                                    points="904,11,958,11,965,33.2969,968,33.2969,968,82,904,82,904,11"
+                                    style="stroke:#000000;stroke-width:1.5;" />
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="904" x2="965" y1="33.2969"
+                                    y2="33.2969" />
+                                <g>
+                                    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold"
+                                        lengthAdjust="spacing" x="908" y="25.9951">folder</text>
+                                </g>
+                            </g><!--cluster rectangle-->
+                            <g id="cluster_rectangle">
+                                <rect class="image-rect" fill="none" filter="url(#f5lvnrk2dfmrz)" height="71"
+                                    style="stroke:#000000;stroke-width:1.5;" width="93" x="992" y="11" /><text
+                                    fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold"
+                                    lengthAdjust="spacing" x="1000" y="25.9951">rectangle</text>
+                            </g>
+                            <!--entity l4--><!--entity l3--><!--entity l1--><!--entity l2--><!--entity lb5--><!--entity file-->
+                            <g id="elem_file">
+                                <polygon fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)"
+                                    points="47.5,38,47.5,74.2969,90.5,74.2969,90.5,48,80.5,38,47.5,38"
+                                    style="stroke:#A80036;stroke-width:1.0;" />
+                                <path d="M80.5,38 L80.5,48 L90.5,48 " fill="#FEFECE"
+                                    style="stroke:#A80036;stroke-width:1.0;" /><text fill="#000000"
+                                    font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="57.5"
+                                    y="60.9951">file</text>
+                            </g><!--entity collections-->
+                            <g id="elem_collections">
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="32.2969"
+                                    style="stroke:#A80036;stroke-width:1.5;" width="94" x="130" y="42" />
+                                <rect fill="#FEFECE" height="32.2969" style="stroke:#A80036;stroke-width:1.5;"
+                                    width="94" x="126" y="38" /><text fill="#000000" font-family="sans-serif"
+                                    font-size="14" lengthAdjust="spacing" x="134" y="58.9951">collections</text>
+                            </g>
+                            <g id="elem_usecase">
+                                <ellipse cx="310.8543" cy="56.2084" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)"
+                                    rx="51.8543" ry="14.7084" style="stroke:#A80036;stroke-width:1.0;" /><text
+                                    fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                                    x="279.8543" y="59.956">usecase</text>
+                            </g><!--entity card-->
+                            <g id="elem_card">
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="22.2969"
+                                    style="stroke:#A80036;stroke-width:1.0;" width="51" x="398.5" y="45" /><text
+                                    fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                                    x="408.5" y="60.9951">card</text>
+                            </g><!--entity cloud-->
+                            <g id="elem_cloud">
+                                <path
+                                    d="M494.0949,42.0025 C496.4559,35.9034 502.1645,34.7045 506.2344,40.2158 C509.8758,32.321 514.116,31.3052 520.0803,38.0133 C524.3929,32.9926 530.1148,33.577 532.5918,40.0172 C537.1555,34.6672 542.4581,36.3916 545.0613,42.2067 C552.7778,44.4029 555.9459,51.3771 548.8015,57.2646 C554.7663,62.5768 554.5835,69.0086 546.605,72.2813 C544.0481,80.4294 538.9278,81.1932 532.7131,76.1266 C530.9015,83.1802 525.7965,83.2739 521.1711,78.9915 C516.0942,84.1223 509.1217,83.9871 506.8737,75.9255 C502.0728,81.9992 496.4492,78.7969 494.4313,73.0067 C485.9312,70.4799 485.2998,64.3327 490.5049,58.1772 C483.8642,52.2922 486.4472,44.7161 494.0949,42.0025 "
+                                    fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)"
+                                    style="stroke:#A80036;stroke-width:1.0;" /><text fill="#000000"
+                                    font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="500"
+                                    y="60.9951">cloud</text>
+                            </g><!--entity component-->
+                            <g id="elem_component">
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="46.2969"
+                                    style="stroke:#A80036;stroke-width:1.0;" width="124" x="7" y="157.5" />
+                                <rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.0;" width="15"
+                                    x="111" y="162.5" />
+                                <rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.0;" width="4"
+                                    x="109" y="164.5" />
+                                <rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.0;" width="4"
+                                    x="109" y="168.5" /><text fill="#000000" font-family="sans-serif" font-size="14"
+                                    lengthAdjust="spacing" x="22" y="190.4951">component</text>
+                            </g><!--entity actor-->
+                            <g id="elem_actor">
+                                <ellipse cx="185" cy="149" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" rx="8" ry="8"
+                                    style="stroke:#A80036;stroke-width:2.0;" />
+                                <path d="M185,157 L185,184 M172,165 L198,165 M185,184 L172,199 M185,184 L198,199 "
+                                    fill="none" filter="url(#f5lvnrk2dfmrz)" style="stroke:#A80036;stroke-width:2.0;" />
+                                <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                                    x="166" y="218.9951">actor</text>
+                            </g><!--entity agent-->
+                            <g id="elem_agent">
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="36.2969"
+                                    style="stroke:#A80036;stroke-width:1.0;" width="62" x="239" y="162.5" /><text
+                                    fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                                    x="249" y="185.4951">agent</text>
+                            </g><!--entity artifact-->
+                            <g id="elem_artifact">
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="39.2969"
+                                    style="stroke:#A80036;stroke-width:1.0;" width="84" x="336" y="161" />
+                                <polygon fill="#FEFECE" points="403,166,403,180,415,180,415,172,409,166,403,166"
+                                    style="stroke:#A80036;stroke-width:1.0;" />
+                                <line style="stroke:#A80036;stroke-width:1.0;" x1="409" x2="409" y1="166" y2="172" />
+                                <line style="stroke:#A80036;stroke-width:1.0;" x1="415" x2="409" y1="172" y2="172" />
+                                <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                                    x="346" y="186.9951">artifact</text>
+                            </g><!--entity control-->
+                            <g id="elem_control">
+                                <ellipse cx="481" cy="172.5" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" rx="12" ry="12"
+                                    style="stroke:#A80036;stroke-width:2.0;" />
+                                <polygon fill="#A80036" points="477,160.5,483,155.5,481,160.5,483,165.5,477,160.5"
+                                    style="stroke:#A80036;stroke-width:1.0;" /><text fill="#000000"
+                                    font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="455"
+                                    y="201.4951">control</text>
+                            </g><!--entity database-->
+                            <g id="elem_database">
+                                <path
+                                    d="M26,298.5 C26,288.5 69,288.5 69,288.5 C69,288.5 112,288.5 112,298.5 L112,323.7969 C112,333.7969 69,333.7969 69,333.7969 C69,333.7969 26,333.7969 26,323.7969 L26,298.5 "
+                                    fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)"
+                                    style="stroke:#A80036;stroke-width:1.0;" />
+                                <path d="M26,298.5 C26,308.5 69,308.5 69,308.5 C69,308.5 112,308.5 112,298.5 "
+                                    fill="none" style="stroke:#A80036;stroke-width:1.0;" />
+                                <g>
+                                    <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                                        x="36" y="325.4951">database</text>
+                                </g>
+                            </g><!--entity storage-->
+                            <g id="elem_storage">
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="36.2969" rx="35" ry="35"
+                                    style="stroke:#A80036;stroke-width:1.0;" width="75" x="147.5" y="293" /><text
+                                    fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                                    x="157.5" y="315.9951">storage</text>
+                            </g><!--entity interface-->
+                            <g id="elem_interface">
+                                <ellipse cx="299" cy="311" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" rx="8" ry="8"
+                                    style="stroke:#A80036;stroke-width:1.0;" /><text fill="#000000"
+                                    font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="266"
+                                    y="340.9951">interface</text>
+                            </g><!--entity label-->
+                            <g id="elem_label"><text fill="#000000" font-family="sans-serif" font-size="14"
+                                    lengthAdjust="spacing" x="385.5" y="315.9951">label</text></g>
+                            <!--entity queue-->
+                            <g id="elem_queue">
+                                <path
+                                    d="M470.5,298 L523.5,298 C528.5,298 528.5,311.1484 528.5,311.1484 C528.5,311.1484 528.5,324.2969 523.5,324.2969 L470.5,324.2969 C465.5,324.2969 465.5,311.1484 465.5,311.1484 C465.5,311.1484 465.5,298 470.5,298 "
+                                    fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)"
+                                    style="stroke:#A80036;stroke-width:2.0;" />
+                                <path
+                                    d="M523.5,298 C518.5,298 518.5,311.1484 518.5,311.1484 C518.5,324.2969 523.5,324.2969 523.5,324.2969 "
+                                    fill="none" style="stroke:#A80036;stroke-width:2.0;" /><text fill="#000000"
+                                    font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="470.5"
+                                    y="315.9951">queue</text>
+                            </g><!--entity stack-->
+                            <g id="elem_stack">
+                                <rect fill="#FEFECE" height="36.2969" style="stroke:none;stroke-width:1.0;" width="59"
+                                    x="39.5" y="406" />
+                                <path d="M24.5,406 L39.5,406 L39.5,442.2969 L98.5,442.2969 L98.5,406 L113.5,406 "
+                                    fill="none" filter="url(#f5lvnrk2dfmrz)" style="stroke:#A80036;stroke-width:1.0;" />
+                                <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                                    x="49.5" y="428.9951">stack</text>
+                            </g><!--entity boundary-->
+                            <g id="elem_boundary">
+                                <path d="M161.5,404 L161.5,428 M161.5,416 L178.5,416 " fill="none"
+                                    filter="url(#f5lvnrk2dfmrz)" style="stroke:#A80036;stroke-width:2.0;" />
+                                <ellipse cx="190.5" cy="416" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" rx="12" ry="12"
+                                    style="stroke:#A80036;stroke-width:2.0;" /><text fill="#000000"
+                                    font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="148.5"
+                                    y="444.9951">boundary</text>
+                            </g><!--entity entity-->
+                            <g id="elem_entity">
+                                <ellipse cx="273" cy="416" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" rx="12" ry="12"
+                                    style="stroke:#A80036;stroke-width:2.0;" />
+                                <line style="stroke:#A80036;stroke-width:2.0;" x1="261" x2="285" y1="430" y2="430" />
+                                <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing"
+                                    x="251" y="444.9951">entity</text>
+                            </g>
+
+                        </g>
+                    </svg>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5" id="main_block">
+        <div class="row">
+            <div class="col">
+                <h2>Simple online UML Diagram Editor</h2>
+                <p>This page is not intended to work. This application demonstrates the basic algorithms for
+                    manipulating UML objects. Selecting an UML object from the list, moving, resizing, label text, arrows. To
+                    save the drawing, click "Create SVG"</p>
+            </div>
+        </div>
+        <div class="row">
+            <!-- d-flex justify-content-between flex-wrap  <div class="col p-2"> -->
+
+            <div class="col-lg-8 col-sm-12 mb-2 d-flex justify-content-lg-start justify-content-between gap-2"
+                id="butPanel">
+                <button type="button" class="btn btn-primary" id="image">
+                    <i class="bi bi-card-image"></i>
+                    Image
+                </button>
+                <button type="button" class="btn btn-primary btn-success" id="move">
+                    <i class="bi bi-hand-index-thumb"></i>
+                    Move
+                </button>
+                <button type="button" class="btn btn-primary" id="link" style="display:none">
+                    <i class="bi bi-collection"></i>
+                    Group
+                </button>
+                <button type="button" class="btn btn-primary" id="line">
+                    <i class="bi bi-arrow-right"></i>
+                    Line
+                </button>
+                <button type="button" class="btn btn-primary" id="text" style="display:none">
+                    <i class="bi bi-fonts"></i>
+                    Text
+                </button>
+                <button type="button" class="btn btn-primary" id="apply">
+                    <i class="bi bi-check2"></i>
+                    Text
+                </button>
+
+            </div>
+            <div class="col-lg-4 col-sm-12 mb-2 d-flex justify-content-lg-end justify-content-center gap-2">
+
+                <button type="button" class="btn btn-primary" id="del">
+                    <i class="bi bi-trash3"></i>
+                    Delete
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col p-2 d-flex justify-content-center">
+                <div class="svgcontainer border">
+                    <input type="text" style="display:none;position: absolute;" id="editcontrol">
+                    <svg id="mainSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        contentStyleType="text/css" preserveAspectRatio="none"
+                        style="width:1500px;height:681px;background:#FFFFFF;" version="1.1" viewBox="0 0 1500 681"
+                        zoomAndPan="magnify">
+                        <defs>
+                            <filter height="300%" id="fiz91fi0ogmck" width="300%" x="-1" y="-1">
+                                <feGaussianBlur result="blurOut" stdDeviation="2.0" />
+                                <feColorMatrix in="blurOut" result="blurOut2" type="matrix"
+                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0" />
+                                <feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3" />
+                                <feBlend in="SourceGraphic" in2="blurOut3" mode="normal" />
+                            </filter>
+                        </defs>
+                    </svg>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <script type="module" src="/main.js"></script>
+</body>
+
+</html>
