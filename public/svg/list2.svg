@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentstyletype="text/css" preserveAspectRatio="none" style="width:800px;height:400px;background:#FFFFFF;" version="1.1" viewBox="0 0 800 400" zoomAndPan="magnify">
+                        <defs>
+                            <filter height="300%" id="f5lvnrk2dfmrz" width="300%" x="-1" y="-1">
+                                <feGaussianBlur result="blurOut" stdDeviation="2.0"></feGaussianBlur>
+                                <feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix>
+                                <feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"></feOffset>
+                                <feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend>
+                            </filter>
+                        </defs>
+                    
+                    <g>
+                                <polygon class="image-rect" filter="url(#f5lvnrk2dfmrz)" points="30 21 40 11 145 11 145 77 135 87 30 87 30 21" style="stroke:#000000;stroke-width:1.5;"></polygon>
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="135" x2="145" y1="21" y2="11"></line>
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="30" x2="135" y1="21" y2="21"></line>
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="135" x2="135" y1="21" y2="87"></line>
+                                <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" x="64" y="36.99510192871094">node</text>
+                            </g><g>
+                                <polygon class="image-rect" filter="url(#f5lvnrk2dfmrz)" points="171 13 244 13 251 35.2969 254 35.2969 254 84 171 84 171 13" style="stroke:#000000;stroke-width:1.5;"></polygon>
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="171" x2="251" y1="35.296905517578125" y2="35.296905517578125"></line>
+                                <g>
+                                    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" x="175" y="27.995101928710938">package</text>
+                                </g>
+                            </g><g>
+                                <rect class="image-rect" filter="url(#f5lvnrk2dfmrz)" height="75" style="stroke:#A80036;stroke-width:1.0;" width="108" x="292" y="17"></rect>
+                                <path d="M389.875,17 L389.875,26.82066901408451 L373,37.38404929577465 L292,37.38404929577465 " fill="none" style="stroke:#A80036;stroke-width:1.0;"></path>
+                                <g>
+                                    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" x="295" y="30.995101928710938">frame</text>
+                                </g>
+                            </g><g>
+                                <polygon class="image-rect" filter="url(#f5lvnrk2dfmrz)" points="435 18 535.406 18 548.422 41.239 554 41.239 554 92 435 92 435 18" style="stroke:#000000;stroke-width:1.5;"></polygon>
+                                <line style="stroke:#000000;stroke-width:1.5;" x1="435" x2="548.421875" y1="41.2390251159668" y2="41.2390251159668"></line>
+                                <g>
+                                    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" x="439" y="32.99510192871094">folder</text>
+                                </g>
+                            </g><g>
+                                <rect class="image-rect" fill="none" filter="url(#f5lvnrk2dfmrz)" height="71" style="stroke:#000000;stroke-width:1.5;" width="101" x="603" y="21"></rect><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" x="614.3745727539062" y="35.99510192871094">rectangle</text>
+                            </g><g>
+                                <polygon fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" points="34 118 34 158.297 107 158.297 107 129.102 90.0232 118 34 118" style="stroke:#A80036;stroke-width:1.0;"></polygon>
+                                <path d="M90.02325581395348,118 L90.02325581395348,129.1020223192478 L107,129.1020223192478 " fill="#FEFECE" style="stroke:#A80036;stroke-width:1.0;"></path><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="57.526878356933594" y="142.96593416348847">file</text>
+                            </g><g>
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="32.2969" style="stroke:#A80036;stroke-width:1.5;" width="94" x="161" y="127"></rect>
+                                <rect fill="#FEFECE" height="32.2969" style="stroke:#A80036;stroke-width:1.5;" width="94" x="157" y="123"></rect><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="165" y="143.99510192871094">collections</text>
+                            </g><g>
+                                <ellipse cx="340.35430908203125" cy="144.20840463779408" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" rx="54.35430145263672" ry="19.208398867358955" style="stroke:#A80036;stroke-width:1.0;"></ellipse><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="309.1219177246094" y="147.53884415372056">usecase</text>
+                            </g><g>
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="36.29689767203449" style="stroke:#A80036;stroke-width:1.0;" width="74" x="426" y="128"></rect><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="446.652099609375" y="150.8290509893175">card</text>
+                            </g><g>
+                                <path d="M47.39815317382812,219.4303907775879 C49.75915317382811,213.3312907775879 55.4677531738281,212.1323907775879 59.53765317382812,217.6436907775879 C63.17905317382815,209.7488907775879 67.41925317382811,208.7330907775879 73.38355317382809,215.4411907775879 C77.69615317382818,210.4204907775879 83.41805317382807,211.0048907775879 85.89505317382816,217.4450907775879 C90.45875317382809,212.0950907775879 95.76135317382807,213.81949077758787 98.36455317382809,219.6345907775879 C106.08105317382808,221.83079077758788 109.24915317382818,228.80499077758788 102.10475317382816,234.6924907775879 C108.06955317382813,240.00469077758788 107.88675317382808,246.4364907775879 99.90825317382814,249.70919077758788 C97.3513531738281,257.8572907775879 92.23105317382817,258.6210907775879 86.01635317382818,253.5544907775879 C84.20475317382818,260.6080907775879 79.09975317382816,260.7017907775879 74.47435317382815,256.41939077758786 C69.39745317382813,261.5501907775879 62.4249531738281,261.4149907775879 60.17695317382811,253.3533907775879 C55.3760531738281,259.42709077758786 49.752453173828144,256.2247907775879 47.73455317382815,250.43459077758789 C39.234453173828115,247.90779077758788 38.60305317382813,241.76059077758788 43.808153173828146,235.6050907775879 C37.16745317382811,229.7200907775879 39.750453173828134,222.14399077758787 47.39815317382812,219.4303907775879 " fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" style="stroke:#A80036;stroke-width:1.0;"></path><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="53.303253173828125" y="238.42298889160156">cloud</text>
+                            </g><g>
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="36.2969" style="stroke:#A80036;stroke-width:1.0;" width="62" x="534" y="129"></rect><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="544" y="151.99510192871094">agent</text>
+                            </g><g>
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="39.2969" style="stroke:#A80036;stroke-width:1.0;" width="84" x="622" y="127"></rect>
+                                <polygon fill="#FEFECE" points="689 132 689 146 701 146 701 138 695 132 689 132" style="stroke:#A80036;stroke-width:1.0;"></polygon>
+                                <line style="stroke:#A80036;stroke-width:1.0;" x1="695" x2="695" y1="132" y2="138"></line>
+                                <line style="stroke:#A80036;stroke-width:1.0;" x1="701" x2="695" y1="138" y2="138"></line>
+                                <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="632" y="152.99510192871094">artifact</text>
+                            </g><g>
+                                <path d="M158,223 C158,213 201,213 201,213 C201,213 244,213 244,223 L244,248.2969 C244,258.2969 201,258.2969 201,258.2969 C201,258.2969 158,258.2969 158,248.2969 L158,223 " fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" style="stroke:#A80036;stroke-width:1.0;"></path>
+                                <path d="M158,223 C158,233 201,233 201,233 C201,233 244,233 244,223 " fill="none" style="stroke:#A80036;stroke-width:1.0;"></path>
+                                <g>
+                                    <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="168" y="249.99508666992188">database</text>
+                                </g>
+                            </g><g>
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="60.29690170288086" rx="35" ry="35" style="stroke:#A80036;stroke-width:1.0;" width="109" x="286" y="201"></rect><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="311.16632080078125" y="235.82017517089844">storage</text>
+                            </g><g>
+                                <path d="M432.5396825396825,219 L512.4603174603176,219 C520,219 520,238.148375924716 520,238.148375924716 C520,238.148375924716 520,257.2968974821776 512.4603174603176,257.2968974821776 L432.5396825396825,257.2968974821776 C425,257.2968974821776 425,238.148375924716 425,238.148375924716 C425,238.148375924716 425,219 432.5396825396825,219 " fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" style="stroke:#A80036;stroke-width:2.0;"></path>
+                                <path d="M512.4603174603176,219 C504.92063492063477,219 504.92063492063477,238.148375924716 504.92063492063477,238.148375924716 C504.92063492063477,257.2968974821776 512.4603174603176,257.2968974821776 512.4603174603176,257.2968974821776 " fill="none" style="stroke:#A80036;stroke-width:2.0;"></path><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="442.4811924061877" y="242.8744225371262">queue</text>
+                            </g><g>
+                                <rect fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" height="47.29690178186516" style="stroke:#A80036;stroke-width:1.0;" width="149" x="557" y="215"></rect>
+                                <rect fill="#FEFECE" height="10.215996344044662" style="stroke:#A80036;stroke-width:1.0;" width="18.02419460141981" x="681.9676150760135" y="220.10800470952003"></rect>
+                                <rect fill="#FEFECE" height="2.0431996423802286" style="stroke:#A80036;stroke-width:1.0;" width="4.806450869586016" x="679.5644626101932" y="222.15120061618728"></rect>
+                                <rect fill="#FEFECE" height="2.0431996423802286" style="stroke:#A80036;stroke-width:1.0;" width="4.806450869586016" x="679.5644626101932" y="226.2375924295218"></rect><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="582.0179080447635" y="248.59737525705097">component</text>
+                            </g><g>
+                                <ellipse cx="64" cy="312" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" rx="8" ry="8" style="stroke:#A80036;stroke-width:2.0;"></ellipse>
+                                <path d="M64,320 L64,347 M51,328 L77,328 M64,347 L51,362 M64,347 L77,362 " fill="none" filter="url(#f5lvnrk2dfmrz)" style="stroke:#A80036;stroke-width:2.0;"></path>
+                                <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="45" y="381.9951171875">actor</text>
+                            </g><g>
+                                    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" x="167.9148712158203" y="346.6666564941406">Text</text>
+                                </g><g><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="309.8985900878906" y="346.6666564941406">Text</text></g><g>
+                                <ellipse cx="467" cy="331" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" rx="12" ry="12" style="stroke:#A80036;stroke-width:2.0;"></ellipse>
+                                <polygon fill="#A80036" points="463 319 469 314 467 319 469 324 463 319" style="stroke:#A80036;stroke-width:1.0;"></polygon><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="441" y="359.9951171875">control</text>
+                            </g><g>
+                                <ellipse cx="622" cy="323" fill="#FEFECE" filter="url(#f5lvnrk2dfmrz)" rx="12" ry="12" style="stroke:#A80036;stroke-width:2.0;"></ellipse>
+                                <line style="stroke:#A80036;stroke-width:2.0;" x1="610" x2="634" y1="337" y2="337"></line>
+                                <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" x="600" y="351.9950866699219">entity</text>
+                            </g></svg>

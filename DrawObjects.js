@@ -1,9 +1,41 @@
+let parseD = (dp) => {
+    if (dp.indexOf(",") > -1)
+        return dp;
+
+    let num = "-0123456789"
+    let a = dp.split(" ");
+    let res = "";
+    let chet = 0;
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] == "")
+            continue;
+        if (a[i] == "Z")
+        {
+            res += "Z ";
+            continue;
+        }
+        if (num.includes(a[i][0])) {
+            if (chet % 2 == 0)
+                res += a[i];
+            else
+                res += `,${a[i]} `;
+            chet = (chet + 1) % 2;
+        }
+        else
+            res += a[i];
+    }
+    return res;
+}
+
 let moveD = (d, dx, dy) => {
     let num = "-0123456789"
+    d = parseD(d);
     let a = d.split(" ");
     let ad = a.map((val) => {
         if (val == "")
             return "";
+        if (val == "Z")
+            return val;
 
         let pref = "";
         if (!num.includes(val[0])) {
@@ -22,12 +54,14 @@ let moveD = (d, dx, dy) => {
 
 
 let resizeD = (d, dx, dy, startX, startY, w, h) => {
-    let num = "-0123456789"
+    let num = "-0123456789";
+    d = parseD(d);
     let a = d.split(" ");
     let ad = a.map((val) => {
         if (val == "")
             return "";
-
+        if (val == "Z")
+            return val;
         let pref = "";
         if (!num.includes(val[0])) {
             pref = val[0];
@@ -89,7 +123,7 @@ let moveElement = (el, dx, dy) => {
             che.setAttribute("y", y);
         }
 
-        if (che.tagName == "rect") {
+        if (che.tagName == "rect" || che.tagName == "image") {
             let x = che.x.baseVal.value + dx;
             let y = che.y.baseVal.value + dy;
             che.setAttribute("x", x);
@@ -161,7 +195,7 @@ let resizeElement = (el, dx, dy, startX, startY, w, h) => {
 
         }
 
-        if (che.tagName == "rect") {
+        if (che.tagName == "rect" || che.tagName == "image") {
             let x = che.x.baseVal.value + dx * (che.x.baseVal.value - startX) / w;
             let y = che.y.baseVal.value + dy * (che.y.baseVal.value - startY) / h;
 
@@ -227,6 +261,13 @@ let resizeElement = (el, dx, dy, startX, startY, w, h) => {
 
 
 function DrawCnvas(svg, images, editcontrol) {
+    //defs svg
+    let defSVG = svg.getElementsByTagName("defs")[0];
+    let defImg = images.getElementsByTagName("defs");
+    if (defImg)
+        defSVG.innerHTML = defImg[0].innerHTML;
+
+
     this.arrowW = 12;
     this.arrowH = 8;
     this.mSVG = svg;
@@ -391,6 +432,7 @@ function DrawCnvas(svg, images, editcontrol) {
 
     //select image
     images.addEventListener("mousedown", (e) => {
+        console.log("aa");
         if (e.target.parentElement.tagName == "g") {
             this.activeHTML = e.target.parentElement.innerHTML;
             this.mode = "add";
@@ -564,6 +606,7 @@ g {
 </style>`
         let res = this.mSVG.outerHTML;
         res = res.replace("<!--CopyRight-->", style)
+        res = res.replace('id="mainSVG"', "");
         return res;
     }
 }
