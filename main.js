@@ -23,26 +23,7 @@ let loadimages = async (url) => {
     return result;
 }
 
-let imageHTML = await loadimages(imurl);
-let bufDiv = document.createElement("div")
-bufDiv.innerHTML = imageHTML;
-let bufSVG = bufDiv.getElementsByTagName("svg")[0];
-document.getElementById("images").appendChild(bufSVG);
-
-
-let dm = new DrawCnvas(document.getElementById("mainSVG"),
-bufSVG,    
-//document.getElementById("images"),
-    document.getElementById("editcontrol")
-);
-dm.onSelect = () => {
-    myModal.hide();
-    clearBut({ target: document.getElementById("image") });
-}
-dm.onSetMode = (e) => {
-    clearBut({ target: document.getElementById(e) });
-}
-
+let dm = {};
 
 let clearBut = (e) => {
     let btns = document.getElementById("butPanel").getElementsByTagName("button");
@@ -99,5 +80,27 @@ infoSVG.addEventListener("click", () => {
     document.getElementById("result").value = dm.generate();
 });
 
+let init = async () => {
+    let imageHTML = await loadimages(imurl);
+    let bufDiv = document.createElement("div")
+    bufDiv.innerHTML = imageHTML;
+    let bufSVG = bufDiv.getElementsByTagName("svg")[0];
+    document.getElementById("images").appendChild(bufSVG);
 
 
+    dm = new DrawCnvas(document.getElementById("mainSVG"),
+        bufSVG,
+        //document.getElementById("images"),
+        document.getElementById("editcontrol")
+    );
+    dm.onSelect = () => {
+        myModal.hide();
+        clearBut({ target: document.getElementById("image") });
+    }
+    dm.onSetMode = (e) => {
+        clearBut({ target: document.getElementById(e) });
+    }
+}
+
+
+init();
