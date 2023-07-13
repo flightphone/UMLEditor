@@ -1,4 +1,5 @@
 import './drawobject.css'
+import {SplitPath} from './splitpath'
 import './node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './node_modules/bootstrap-icons/font/bootstrap-icons.min.css'
 import { Modal } from "./node_modules/bootstrap/dist/js/bootstrap.esm.js";
@@ -10,9 +11,10 @@ import { DrawCnvas } from "./DrawObjects";
 
 //load svg
 //let imurl = "/svg/list.svg";
-let imurl = "/svg/list2.svg";
+//let imurl = "/svg/list2.svg";
 //let imurl = "/svg/C4a.svg"
 //let imurl = "/svg/archimate.svg"
+let imurl = "/svg/usalow.svg";
 
 
 let loadimages = async (url) => {
@@ -59,9 +61,9 @@ document.getElementById("move").addEventListener("click", (e) => {
 
 });
 
-document.getElementById("link").addEventListener("click", (e) => {
-    dm.mode = "link";
-    dm.action = "startlink"
+document.getElementById("poly").addEventListener("click", (e) => {
+    dm.mode = "poly";
+    dm.npoly = 0;
     clearBut(e);
 });
 
@@ -72,6 +74,12 @@ document.getElementById("del").addEventListener("click", () => {
 document.getElementById("apply").addEventListener("click", () => {
     dm.saveText();
 });
+
+document.getElementById("split").addEventListener("click", () => {
+    let sp = SplitPath(dm.activeObject, dm.activePoly);
+    
+});
+
 
 
 const infoSVG = document.getElementById("infoSVG");

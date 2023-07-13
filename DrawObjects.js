@@ -1,97 +1,41 @@
-let parseD = (dp) => {
-    if (dp.indexOf(",") > -1)
-        return dp;
+import './path-data-polyfill.js';
+let logPathSegments = (path) => {
+    for (let seg of path.getPathData())
+        console.log(seg);
+}
 
-    let num = "-0123456789"
-    let a = dp.split(" ");
-    let res = "";
-    let chet = 0;
-    for (let i = 0; i < a.length; i++) {
-        if (a[i] == "")
-            continue;
-        if (a[i] == "Z")
-        {
-            res += "Z ";
-            continue;
-        }
-        if (num.includes(a[i][0])) {
-            if (chet % 2 == 0)
-                res += a[i];
+let moveD1 = (path, dx, dy) => {
+    let movepath = path.getPathData({ normalize: true });
+    for (let seg of movepath) {
+
+        for (let i = 0; i < seg.values.length; i++) {
+            if (i % 2 == 0)
+                seg.values[i] += dx;
             else
-                res += `,${a[i]} `;
-            chet = (chet + 1) % 2;
+                seg.values[i] += dy;
+
         }
-        else
-            res += a[i];
     }
-    return res;
+    return movepath;
 }
 
-let moveD = (d, dx, dy) => {
-    let num = "-0123456789"
-    d = parseD(d);
-    let a = d.split(" ");
-    let ad = a.map((val) => {
-        if (val == "")
-            return "";
-        if (val == "Z")
-            return val;
+let resizeD1 = (path, dx, dy, startX, startY, w, h) => {
+    let movepath = path.getPathData({ normalize: true });
+    for (let seg of movepath) {
 
-        let pref = "";
-        if (!num.includes(val[0])) {
-            pref = val[0];
-            val = val.substr(1);
+        for (let i = 0; i < seg.values.length; i++) {
+            if (i % 2 == 0)
+                seg.values[i] += (dx * (seg.values[i] - startX) / w);
+            else
+                seg.values[i] += (dy * (seg.values[i] - startY) / h);
+
         }
-        let xy = val.split(",")
-        let x = parseFloat(xy[0]) + dx;
-        let y = parseFloat(xy[1]) + dy;
-        let res = `${pref}${x},${y}`;
-        return res;
-    })
-    let nd = ad.join(" ");
-    return nd;
-}
-
-
-let resizeD = (d, dx, dy, startX, startY, w, h) => {
-    let num = "-0123456789";
-    d = parseD(d);
-    let a = d.split(" ");
-    let ad = a.map((val) => {
-        if (val == "")
-            return "";
-        if (val == "Z")
-            return val;
-        let pref = "";
-        if (!num.includes(val[0])) {
-            pref = val[0];
-            val = val.substr(1);
-        }
-        let xy = val.split(",")
-        let x = parseFloat(xy[0]);
-        let y = parseFloat(xy[1]);
-
-        x += (dx * (x - startX) / w);
-        y += (dy * (y - startY) / h);
-
-        let res = `${pref}${x},${y}`;
-        return res;
-    })
-    let nd = ad.join(" ");
-    return nd;
-}
-
-let getRectFromBez = (d) => {
-    let res = []
-    let a = d.split(" ");
-    for (let i = 2; i < 4; i++) {
-        let xy = a[i].split(",")
-        let x = parseFloat(xy[0]);
-        let y = parseFloat(xy[1]);
-        res.push({ x: x, y: y });
     }
-    return res;
+    return movepath;
 }
+
+
+
 
 let moveElement = (el, dx, dy) => {
     if (!el)
@@ -130,7 +74,7 @@ let moveElement = (el, dx, dy) => {
             che.setAttribute("y", y);
         }
 
-        if (che.tagName == "polygon") {
+        if (che.tagName == "polygon" || che.tagName == "polyline") {
             for (let i = 0; i < che.points.length; i++) {
                 let a = che.points[i];
                 //console.log(`${a.x}, ${a.y}`);
@@ -139,9 +83,9 @@ let moveElement = (el, dx, dy) => {
             }
         }
         if (che.tagName == "path") {
-            let d = che.getAttribute("d");
-            d = moveD(d, dx, dy);
-            che.setAttribute("d", d);
+            let d = moveD1(che, dx, dy);
+            che.setPathData(d);
+
         }
         if (che.tagName == "g") {
             moveElement(che, dx, dy);
@@ -223,7 +167,7 @@ let resizeElement = (el, dx, dy, startX, startY, w, h) => {
             che.setAttribute("y", y);
         }
 
-        if (che.tagName == "polygon") {
+        if (che.tagName == "polygon"  || che.tagName == "polyline") {
             if (el.dataset.type == "arrow") {
                 let ar = new ArrowObject(x1, y1, x2, y2, 12, 8);
                 for (let i = 0; i < che.points.length; i++) {
@@ -243,15 +187,13 @@ let resizeElement = (el, dx, dy, startX, startY, w, h) => {
         }
 
         if (che.tagName == "path") {
-            let d = che.getAttribute("d");
-            d = resizeD(d, dx, dy, startX, startY, w, h);
-            che.setAttribute("d", d);
+            let d = resizeD1(che, dx, dy, startX, startY, w, h);
+            che.setPathData(d);
             if (el.dataset.type == "arrow") {
-                let a = getRectFromBez(d);
-                x1 = a[0].x;
-                y1 = a[0].y;
-                x2 = a[1].x;
-                y2 = a[1].y;
+                x1 = d[1].values[2];
+                y1 = d[1].values[3];
+                x2 = d[1].values[4];
+                y2 = d[1].values[5];
             }
         }
 
@@ -344,8 +286,6 @@ function DrawCnvas(svg, images, editcontrol) {
             }
         }
         this.mSVG.appendChild(el);
-
-
     }
 
 
@@ -421,7 +361,6 @@ function DrawCnvas(svg, images, editcontrol) {
                 cy: this.circles[i].cy.baseVal.value
             })
         let d = `M${points[0].cx},${points[0].cy} C${points[1].cx},${points[1].cy} ${points[2].cx},${points[2].cy} ${points[3].cx},${points[3].cy}`;
-        console.log(d);
         p.setAttribute("class", "image-line");
         p.setAttribute("d", d);
         group.appendChild(p);
@@ -432,7 +371,7 @@ function DrawCnvas(svg, images, editcontrol) {
 
     //select image
     images.addEventListener("mousedown", (e) => {
-        console.log("aa");
+
         if (e.target.parentElement.tagName == "g") {
             this.activeHTML = e.target.parentElement.innerHTML;
             this.mode = "add";
@@ -459,9 +398,44 @@ function DrawCnvas(svg, images, editcontrol) {
         }
     });
 
+    this.addimage = () => {
+        let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.innerHTML = this.activeHTML;
+        this.mSVG.appendChild(group);
+        let bx = group.getBBox();
+        //console.log(bx);
+        let dx = this.x - bx.x;
+        let dy = this.y - bx.y;
+        moveElement(group, dx, dy);
+        return group;
+    }
+
     this.mSVG.addEventListener("mousedown", (e) => {
         this.x = e.offsetX;
         this.y = e.offsetY;
+        if (this.mode == "poly") {
+            if (this.npoly == 0) {
+                this.deactivate();
+                this.npoly = 1;
+                let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                let poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+                poly.setAttribute("class", "image-line");
+                group.appendChild(poly);
+                this.mSVG.appendChild(group);
+                let poi = this.mSVG.createSVGPoint();
+                poi.x = this.x;
+                poi.y = this.y;
+                poly.points.appendItem(poi);
+                this.activePoly = poly;
+            }
+            else {
+                let poly = this.activePoly;
+                let poi = this.mSVG.createSVGPoint();
+                poi.x = this.x;
+                poi.y = this.y;
+                poly.points.appendItem(poi);
+            }
+        }
         //=====================curve==============================================
         if (this.mode == "curve") {
             if (this.ncur == -1 || this.ncur == 4) {
@@ -485,16 +459,10 @@ function DrawCnvas(svg, images, editcontrol) {
         //====================================add image============================
         if (this.mode == "add") {
             //add new image
-            let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-            group.innerHTML = this.activeHTML;
-            this.mSVG.appendChild(group);
-            let bx = group.getBBox();
-            //console.log(bx);
-            let dx = this.x - bx.x;
-            let dy = this.y - bx.y;
-            moveElement(group, dx, dy);
+            let group = this.addimage();
             if (e.target.parentElement.tagName == "g")
                 e.target.parentElement.appendChild(group);
+
             this.mode = "move";
             if (this.onSetMode)
                 this.onSetMode("move");
@@ -609,6 +577,18 @@ g {
         res = res.replace('id="mainSVG"', "");
         return res;
     }
+
+    //add alaska for test
+    let usak = images.getElementById("US-AK")
+    if (usak) {
+        this.activeHTML = usak.outerHTML;
+        this.x = 200;
+        this.y = 100;
+        this.activeObject = this.addimage();
+
+    }
+
+
 }
 
 function ArrowObject(x1, y1, x2, y2, w, h) {
