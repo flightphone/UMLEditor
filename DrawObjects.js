@@ -579,6 +579,7 @@ g {
     }
 
     //add alaska for test
+    /*
     let usak = images.getElementById("US-AK")
     if (usak) {
         this.activeHTML = usak.outerHTML;
@@ -587,6 +588,7 @@ g {
         this.activeObject = this.addimage();
 
     }
+    */
 
 
 }

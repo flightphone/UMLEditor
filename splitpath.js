@@ -57,11 +57,19 @@ let drawgr = (group, xy) => {
     group.appendChild(p);
 }
 
-function SplitPath(group, poly) {
+function SplitPathAll(group, poly)
+{
+    let paths = group.getElementsByTagName("path");
+    for (let path of paths)
+    {
+        let sp = new SplitPath(group, poly, path);
+    }
+
+}
+function SplitPath(group, poly, path) {
     if (!group || !poly)
         return;
-    let paths = group.getElementsByTagName("path");
-    let path = paths[0];
+    
     let points = path.getPathData({ normalize: true });
     let graph = [];
     let coord = [];
@@ -120,7 +128,7 @@ function SplitPath(group, poly) {
                     continue;
                 }
                 else {
-                    
+
                     let addRight = graph.length;
                     graph.push(-1);
                     coord.push({ x: ee.x, y: ee.y });    
@@ -134,8 +142,8 @@ function SplitPath(group, poly) {
                     graph[graph.length-1] = curLeft;
                     curLeft = graph.length-1;
 
-                    //console.log(graph[curLeft]);
-                    //console.log("inject");
+                    // drawgr(group, coord[curLeft])
+                    // drawgr(group, coord[curRight])
 
                     
                 }
@@ -156,6 +164,8 @@ function SplitPath(group, poly) {
                     graph[from] = curRight;
                     graph[curLeft] = to;
                     //console.log("enter");
+                    // drawgr(group, coord[curLeft])
+                    // drawgr(group, coord[curRight])
 
                     
 
@@ -183,12 +193,8 @@ function SplitPath(group, poly) {
 
                     graph[addLeft] = curLeft;
                     graph[from] = addLeft;
-                    //console.log("exit");
-
-                    //drawgr(group, coord[from]);
-                    //drawgr(group, coord[to]);
-                    //drawgr(group, coord[addLeft]);
-                    ////console.log(`from ${from} = ${graph[from]},to ${to} = ${graph[to]},addLeft ${addLeft} = ${graph[addLeft]},to ${addRight} = ${graph[addRight]}`)
+                    // drawgr(group, coord[addLeft])
+                    // drawgr(group, coord[addRight])
 
                 }
                 outspace = !outspace
@@ -244,4 +250,4 @@ function SplitPath(group, poly) {
 
 }
 
-export { SplitPath };
+export { SplitPath, SplitPathAll };

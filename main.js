@@ -1,5 +1,5 @@
 import './drawobject.css'
-import {SplitPath} from './splitpath'
+import {SplitPathAll} from './splitpath'
 import './node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './node_modules/bootstrap-icons/font/bootstrap-icons.min.css'
 import { Modal } from "./node_modules/bootstrap/dist/js/bootstrap.esm.js";
@@ -15,6 +15,7 @@ import { DrawCnvas } from "./DrawObjects";
 //let imurl = "/svg/C4a.svg"
 //let imurl = "/svg/archimate.svg"
 let imurl = "/svg/usalow.svg";
+//let imurl = "/svg/australiaLow.svg";
 
 
 let loadimages = async (url) => {
@@ -76,7 +77,7 @@ document.getElementById("apply").addEventListener("click", () => {
 });
 
 document.getElementById("split").addEventListener("click", () => {
-    let sp = SplitPath(dm.activeObject, dm.activePoly);
+    let sp = SplitPathAll(dm.activeObject, dm.activePoly);
     
 });
 
