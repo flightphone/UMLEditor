@@ -1,5 +1,5 @@
 import './drawobject.css'
-import {SplitPathAll} from './splitpath'
+import { SplitPathAll } from './splitpath'
 import './node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './node_modules/bootstrap-icons/font/bootstrap-icons.min.css'
 import { Modal } from "./node_modules/bootstrap/dist/js/bootstrap.esm.js";
@@ -11,10 +11,10 @@ import { DrawCnvas } from "./DrawObjects";
 
 //load svg
 //let imurl = "/svg/list.svg";
-//let imurl = "/svg/list2.svg";
+let imurl = "/svg/list2.svg";
 //let imurl = "/svg/C4a.svg"
 //let imurl = "/svg/archimate.svg"
-let imurl = "/svg/usalow.svg";
+//let imurl = "/svg/usalow.svg";
 //let imurl = "/svg/australiaLow.svg";
 
 
@@ -62,11 +62,11 @@ document.getElementById("move").addEventListener("click", (e) => {
 
 });
 
-document.getElementById("poly").addEventListener("click", (e) => {
-    dm.mode = "poly";
-    dm.npoly = 0;
-    clearBut(e);
-});
+// document.getElementById("poly").addEventListener("click", (e) => {
+//     dm.mode = "poly";
+//     dm.npoly = 0;
+//     clearBut(e);
+// });
 
 document.getElementById("del").addEventListener("click", () => {
     dm.delete();
@@ -76,9 +76,39 @@ document.getElementById("apply").addEventListener("click", () => {
     dm.saveText();
 });
 
-document.getElementById("split").addEventListener("click", () => {
-    let sp = SplitPathAll(dm.activeObject, dm.activePoly);
-    
+let splitObject;
+document.getElementById("split").addEventListener("click", (e) => {
+    if (!dm.activeObject) {
+        alert("Before select object");
+        return;
+    }
+
+    if (dm.npoly == 0) {
+        try {
+            if (dm.activeGroupPoly)
+                dm.mSVG.removeChild(dm.activeGroupPoly)
+        }
+        catch
+        { ; }
+        dm.mode = "poly";
+        clearBut(e);
+    }
+    else {
+        dm.npoly = 0;
+        dm.mode = "move";
+        clearBut({ target: document.getElementById("move") });
+        let result = SplitPathAll(dm.activeObject, dm.activePoly);
+        
+        dm.delete();
+        try {
+            if (dm.activeGroupPoly)
+                dm.mSVG.removeChild(dm.activeGroupPoly)
+        }
+        catch
+        { ; }
+        dm.mSVG.appendChild(result);
+    }
+
 });
 
 

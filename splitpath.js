@@ -59,11 +59,15 @@ let drawgr = (group, xy) => {
 
 function SplitPathAll(group, poly)
 {
+    
+    let resgroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
     let paths = group.getElementsByTagName("path");
     for (let path of paths)
     {
-        let sp = new SplitPath(group, poly, path);
+        SplitPath(resgroup, poly, path);
     }
+    let result = resgroup;
+    return result;
 
 }
 function SplitPath(group, poly, path) {
@@ -203,7 +207,7 @@ function SplitPath(group, poly, path) {
 
     }
 
-    group.removeChild(path);
+    //group.removeChild(path);
 
     let n = graph.length;
     let vis = new Array(n);

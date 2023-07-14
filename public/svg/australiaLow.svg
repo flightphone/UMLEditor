@@ -16,6 +16,10 @@ contentStyleType="text/css" preserveAspectRatio="none"
 				stroke-opacity: 1;
 				stroke-width:0.5;
 			}
+			.land:hover
+			{
+				fill: green
+			}
 		</style>
 
 		<amcharts:ammap projection="mercator" leftLongitude="112.902891" topLatitude="-10.132839" rightLongitude="158.966830" bottomLatitude="-54.757221"></amcharts:ammap>

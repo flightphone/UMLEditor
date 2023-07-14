@@ -209,7 +209,7 @@ function DrawCnvas(svg, images, editcontrol) {
     if (defImg)
         defSVG.innerHTML = defImg[0].innerHTML;
 
-
+    this.npoly = 0;
     this.arrowW = 12;
     this.arrowH = 8;
     this.mSVG = svg;
@@ -382,6 +382,21 @@ function DrawCnvas(svg, images, editcontrol) {
 
     });
 
+    
+
+    this.addimage = () => {
+        let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.innerHTML = this.activeHTML;
+        this.mSVG.appendChild(group);
+        let bx = group.getBBox();
+        //console.log(bx);
+        let dx = this.x - bx.x;
+        let dy = this.y - bx.y;
+        moveElement(group, dx, dy);
+        return group;
+    }
+
+
     window.addEventListener("mouseup", (e) => {
         if (this.isResize)
             this.isResize = false;
@@ -398,30 +413,20 @@ function DrawCnvas(svg, images, editcontrol) {
         }
     });
 
-    this.addimage = () => {
-        let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        group.innerHTML = this.activeHTML;
-        this.mSVG.appendChild(group);
-        let bx = group.getBBox();
-        //console.log(bx);
-        let dx = this.x - bx.x;
-        let dy = this.y - bx.y;
-        moveElement(group, dx, dy);
-        return group;
-    }
-
     this.mSVG.addEventListener("mousedown", (e) => {
         this.x = e.offsetX;
         this.y = e.offsetY;
         if (this.mode == "poly") {
             if (this.npoly == 0) {
-                this.deactivate();
+                //this.deactivate();
+                console.log("start");
                 this.npoly = 1;
                 let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
                 let poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
                 poly.setAttribute("class", "image-line");
                 group.appendChild(poly);
                 this.mSVG.appendChild(group);
+                this.activeGroupPoly = group;
                 let poi = this.mSVG.createSVGPoint();
                 poi.x = this.x;
                 poi.y = this.y;
@@ -434,6 +439,7 @@ function DrawCnvas(svg, images, editcontrol) {
                 poi.x = this.x;
                 poi.y = this.y;
                 poly.points.appendItem(poi);
+
             }
         }
         //=====================curve==============================================
