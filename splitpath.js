@@ -8,15 +8,12 @@ let intersectionSegment = (seg1, seg2) => {
     let b2 = l2[1];
     let c2 = l2[2];
 
-    // let a1, b1, c1 = lineXY(seg1);
-    // let a2, b2, c2 = lineXY(seg2);
     let d = a1 * b2 - a2 * b1;
     if (d == 0)
         return null
     let x = (c1 * b2 - c2 * b1) / d;
     let y = (c2 * a1 - c1 * a2) / d;
-    if (checkSegment(seg1, x, y) && checkSegment(seg2, x, y))
-    {
+    if (checkSegment(seg1, x, y) && checkSegment(seg2, x, y)) {
         //console.log('a');
         return { x: x, y: y }
     }
@@ -57,13 +54,11 @@ let drawgr = (group, xy) => {
     group.appendChild(p);
 }
 
-function SplitPathAll(group, poly)
-{
-    
+function SplitPathAll(group, poly) {
+
     let resgroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
     let paths = group.getElementsByTagName("path");
-    for (let path of paths)
-    {
+    for (let path of paths) {
         SplitPath(resgroup, poly, path);
     }
     let result = resgroup;
@@ -73,7 +68,7 @@ function SplitPathAll(group, poly)
 function SplitPath(group, poly, path) {
     if (!group || !poly)
         return;
-    
+
     let points = path.getPathData({ normalize: true });
     let graph = [];
     let coord = [];
@@ -109,7 +104,7 @@ function SplitPath(group, poly, path) {
             { x: poly.points[k - 1].x, y: poly.points[k - 1].y },
             { x: poly.points[k].x, y: poly.points[k].y }
         ]
-        
+
         for (let i = 0; i < graph.length; i++) {
             let j = graph[i];
             if (j == -1)
@@ -122,34 +117,29 @@ function SplitPath(group, poly, path) {
 
             }
         }
-        
+
         lisect.sort((a, b) => a.l - b.l);
-        for (let ee of lisect) 
-        {
+        for (let ee of lisect) {
+            if (ee.l < 0.001)
+                continue;
             if (ee.g == -1) {
-                if (outspace)
-                {
+                if (outspace) {
                     continue;
                 }
                 else {
 
                     let addRight = graph.length;
                     graph.push(-1);
-                    coord.push({ x: ee.x, y: ee.y });    
+                    coord.push({ x: ee.x, y: ee.y });
                     graph[curRight] = addRight;
                     curRight = addRight;
-                    
-                    
-                    
                     graph.push(-1);
                     coord.push({ x: ee.x, y: ee.y });
-                    graph[graph.length-1] = curLeft;
-                    curLeft = graph.length-1;
+                    graph[graph.length - 1] = curLeft;
+                    curLeft = graph.length - 1;
 
-                    // drawgr(group, coord[curLeft])
-                    // drawgr(group, coord[curRight])
-
-                    
+                    //close
+                    graph[curRight] = curLeft;
                 }
             }
             else {
@@ -167,18 +157,9 @@ function SplitPath(group, poly, path) {
                     //split
                     graph[from] = curRight;
                     graph[curLeft] = to;
-                    //console.log("enter");
-                    // drawgr(group, coord[curLeft])
-                    // drawgr(group, coord[curRight])
 
-                    
-
-
-
-                    //drawgr(group, coord[from]);
-                    //graph[curLeft] = to
-                    //graph[from] = curRight
-                    //graph[curRight] = -1
+                    //close
+                    graph[curRight] = curLeft;
                 }
                 else {
                     //exit
@@ -191,14 +172,11 @@ function SplitPath(group, poly, path) {
                     let from = ee.g;
                     let to = graph[from];
 
-
                     graph[curRight] = addRight;
                     graph[addRight] = to;
 
                     graph[addLeft] = curLeft;
                     graph[from] = addLeft;
-                    // drawgr(group, coord[addLeft])
-                    // drawgr(group, coord[addRight])
 
                 }
                 outspace = !outspace
@@ -206,8 +184,6 @@ function SplitPath(group, poly, path) {
         }
 
     }
-
-    //group.removeChild(path);
 
     let n = graph.length;
     let vis = new Array(n);
@@ -238,7 +214,6 @@ function SplitPath(group, poly, path) {
                 let bd = next;
                 next = graph[next];
                 if (next == -1) {
-                    //console.log(`${bd} = -1`);
                     drawgr(group, coord[bd]);
                     break;
                 }

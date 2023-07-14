@@ -419,7 +419,7 @@ function DrawCnvas(svg, images, editcontrol) {
         if (this.mode == "poly") {
             if (this.npoly == 0) {
                 //this.deactivate();
-                console.log("start");
+                //console.log("start");
                 this.npoly = 1;
                 let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
                 let poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");

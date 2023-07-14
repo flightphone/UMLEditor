@@ -11,11 +11,11 @@ import { DrawCnvas } from "./DrawObjects";
 
 //load svg
 //let imurl = "/svg/list.svg";
-let imurl = "/svg/list2.svg";
+//let imurl = "/svg/list2.svg";
 //let imurl = "/svg/C4a.svg"
 //let imurl = "/svg/archimate.svg"
 //let imurl = "/svg/usalow.svg";
-//let imurl = "/svg/australiaLow.svg";
+let imurl = "/svg/australiaLow.svg";
 
 
 let loadimages = async (url) => {
