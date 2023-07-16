@@ -11,12 +11,54 @@ import { DrawCnvas } from "./DrawObjects";
 
 //load svg
 //let imurl = "/svg/list.svg";
-//let imurl = "/svg/list2.svg";
+let imurl = "/svg/list2.svg";
 //let imurl = "/svg/C4a.svg"
 //let imurl = "/svg/archimate.svg"
 //let imurl = "/svg/usalow.svg";
-let imurl = "/svg/australiaLow.svg";
+//let imurl = "/svg/australiaLow.svg";
+//let imurl = "/svg/test7.svg";
 
+let fileinput = document.createElement("input");
+fileinput.setAttribute("type", "file");
+
+fileinput.onchange = (ev) => {
+    const file = ev.target.files[0]; // get the file
+
+    if (!file)
+        return;
+
+    let reader = new FileReader();
+    reader.onload = function () {
+        let imageHTML = reader.result;
+        let i = imageHTML.indexOf("<svg");
+        imageHTML = imageHTML.substring(i);
+        let bufDiv = document.createElement("div")
+        bufDiv.innerHTML = imageHTML;
+        let bufSVG = bufDiv.getElementsByTagName("svg")[0];
+        document.getElementById("images").innerHTML = "";
+        document.getElementById("images").appendChild(bufSVG);
+
+        
+        let defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        document.getElementById("mainSVG").innerHTML = "";
+        document.getElementById("mainSVG").appendChild(defs);
+        dm.exit = true;
+        dm = new DrawCnvas(document.getElementById("mainSVG"),
+            bufSVG,
+            //document.getElementById("images"),
+            document.getElementById("editcontrol")
+        );
+        dm.onSelect = () => {
+            myModal.hide();
+            clearBut({ target: document.getElementById("image") });
+        }
+        dm.onSetMode = (e) => {
+            clearBut({ target: document.getElementById(e) });
+        }
+    };
+    reader.readAsText(file);
+
+}
 
 let loadimages = async (url) => {
     let response = await fetch(url);
@@ -36,6 +78,11 @@ let clearBut = (e) => {
     e.target.classList.add("btn-success");
     //console.log(e.target.classList);
 }
+
+document.getElementById("loadfile").addEventListener("click", (e) => {
+    fileinput.click();
+
+});
 
 document.getElementById("image").addEventListener("click", (e) => {
     myModal.show();
@@ -98,7 +145,7 @@ document.getElementById("split").addEventListener("click", (e) => {
         dm.mode = "move";
         clearBut({ target: document.getElementById("move") });
         let result = SplitPathAll(dm.activeObject, dm.activePoly);
-        
+
         dm.delete();
         try {
             if (dm.activeGroupPoly)
@@ -126,7 +173,7 @@ let init = async () => {
     let bufSVG = bufDiv.getElementsByTagName("svg")[0];
     document.getElementById("images").appendChild(bufSVG);
 
-
+    
     dm = new DrawCnvas(document.getElementById("mainSVG"),
         bufSVG,
         //document.getElementById("images"),

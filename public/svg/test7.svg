@@ -1,0 +1,29 @@
+<svg  width = "699"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 699 738">
+<style>
+.image-mapper-shape {
+    fill: rgba(0, 0, 0, 0);
+}
+g:hover .image-mapper-shape {
+    stroke: white;
+    stroke-width: 4;
+}
+.image-text {
+    font-family: Verdana;
+    font-size: 22px;
+    fill: rgba(0, 0, 0, 0);
+}
+
+g:hover .image-text {
+    fill: white;
+}
+</style>
+<g>        
+<image xlink:href="/svg/photo-1.jpg" style="width: 699px;"></image>
+<a xlink:href="#" target="---" xlink:title="Звезда">
+<g>
+<polygon class="image-mapper-shape selected" data-index="2" points="467 562 406 707 375 556 233 553 344 481 303 340 427 435 542 359 493 486 622 576"></polygon>
+<text class="image-text" x="467" y="562">Звезда</text>
+</g>
+</a
+</g>
+</svg>

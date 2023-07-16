@@ -206,7 +206,7 @@ function DrawCnvas(svg, images, editcontrol) {
     //defs svg
     let defSVG = svg.getElementsByTagName("defs")[0];
     let defImg = images.getElementsByTagName("defs");
-    if (defImg)
+    if (defImg.length > 0)
         defSVG.innerHTML = defImg[0].innerHTML;
 
     this.npoly = 0;
@@ -227,6 +227,7 @@ function DrawCnvas(svg, images, editcontrol) {
         p.setAttribute("data-point", i);
         this.circles.push(p);
     }
+    console.log(this.circles.length);
 
     this.drawLine = (x1, y1, x2, y2, index, group) => {
         let p = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -398,6 +399,8 @@ function DrawCnvas(svg, images, editcontrol) {
 
 
     window.addEventListener("mouseup", (e) => {
+        if (this.exit)
+            return;
         if (this.isResize)
             this.isResize = false;
 
@@ -414,6 +417,8 @@ function DrawCnvas(svg, images, editcontrol) {
     });
 
     this.mSVG.addEventListener("mousedown", (e) => {
+        if (this.exit)
+            return;
         this.x = e.offsetX;
         this.y = e.offsetY;
         if (this.mode == "poly") {
@@ -530,6 +535,8 @@ function DrawCnvas(svg, images, editcontrol) {
     });
 
     this.mSVG.addEventListener("mousemove", (e) => {
+        if (this.exit)
+            return;
         if (this.isDrawing) {
             if (this.mode == "line") {
                 this.renderArrow(this.activeObject, this.x, this.y, e.offsetX, e.offsetY);
