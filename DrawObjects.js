@@ -167,7 +167,7 @@ let resizeElement = (el, dx, dy, startX, startY, w, h) => {
             che.setAttribute("y", y);
         }
 
-        if (che.tagName == "polygon"  || che.tagName == "polyline") {
+        if (che.tagName == "polygon" || che.tagName == "polyline") {
             if (el.dataset.type == "arrow") {
                 let ar = new ArrowObject(x1, y1, x2, y2, 12, 8);
                 for (let i = 0; i < che.points.length; i++) {
@@ -227,7 +227,7 @@ function DrawCnvas(svg, images, editcontrol) {
         p.setAttribute("data-point", i);
         this.circles.push(p);
     }
-    console.log(this.circles.length);
+    //console.log(this.circles.length);
 
     this.drawLine = (x1, y1, x2, y2, index, group) => {
         let p = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -260,6 +260,44 @@ function DrawCnvas(svg, images, editcontrol) {
         this.drawLine(x, y, x, y, 0, group);
         this.drawPoligon(a.transform, 0, group);
         return group;
+    }
+
+    this.updateArrow = () =>
+    {
+        let glist = this.mSVG.getElementsByTagName("g");
+        for (let e of glist)
+        {
+            if (e.dataset.type == "arrow" && e.start && e.stop)
+            {
+                let x1 = e.start.cx.baseVal.value; 
+                let y1 = e.start.cy.baseVal.value;
+                let x2 = e.stop.cx.baseVal.value; 
+                let y2 = e.stop.cy.baseVal.value;
+                this.renderArrow(e, x1, y1, x2, y2);
+            }
+        }
+    }
+
+    this.setStartArrow = (el) => {
+        if (!el)
+            return;
+        if (!(el.childNodes && el.stop && el.start))
+            return;
+        for (let i = 0; i < el.childNodes.length; i++) {
+            let che = el.childNodes[i];
+            if (che.tagName == "line") {
+                let x1 = che.x1.baseVal.value;
+                let y1 = che.y1.baseVal.value;
+                let x2 = che.x2.baseVal.value;
+                let y2 = che.y2.baseVal.value;
+                                
+                el.start.setAttribute("cx", x1);
+                el.start.setAttribute("cy", y1);
+                el.stop.setAttribute("cx", x2);
+                el.stop.setAttribute("cy", y2);
+                return;
+            }
+        }
     }
 
     this.renderArrow = (el, x1, y1, x2, y2) => {
@@ -318,6 +356,7 @@ function DrawCnvas(svg, images, editcontrol) {
         this.circles[0].setAttribute("cx", crc.x);
         this.circles[0].setAttribute("cy", crc.y);
 
+
         this.circles[1].setAttribute("cx", crc.x + crc.width);
         this.circles[1].setAttribute("cy", crc.y);
 
@@ -327,6 +366,7 @@ function DrawCnvas(svg, images, editcontrol) {
         this.circles[3].setAttribute("cx", crc.x);
         this.circles[3].setAttribute("cy", crc.y + crc.height);
 
+        //console.log(this.circles[3].cx);
 
         for (let i = 0; i < 4; i++)
             this.activeObject.appendChild(this.circles[i]);
@@ -383,12 +423,12 @@ function DrawCnvas(svg, images, editcontrol) {
 
     });
 
-    
+
 
     this.addimage = () => {
         let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        group.innerHTML = this.activeHTML;
         this.mSVG.appendChild(group);
+        group.innerHTML = this.activeHTML;
         let bx = group.getBBox();
         //console.log(bx);
         let dx = this.x - bx.x;
@@ -408,6 +448,16 @@ function DrawCnvas(svg, images, editcontrol) {
             this.isDrawing = false;
 
             if (this.mode == "line") {
+                if (this.activeLink) {
+                    let p = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    p.setAttribute("cx", e.offsetX);
+                    p.setAttribute("cy", e.offsetY);
+                    p.setAttribute("r", 0);
+                    p.setAttribute("class", "image-link");
+                    this.activeLink.appendChild(p);
+                    this.activeObject.stop = p;
+
+                }
                 this.activeObject = null;
             }
             if (this.mode == "move") {
@@ -482,8 +532,21 @@ function DrawCnvas(svg, images, editcontrol) {
         }
         //====================================add line============================
         if (this.mode == "line") {
+            let p = null;
+            if (e.target.parentElement.tagName == "g") {
+                p = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                p.setAttribute("cx", e.offsetX);
+                p.setAttribute("cy", e.offsetY);
+                p.setAttribute("r", 0);
+                p.setAttribute("class", "image-link");
+                e.target.parentElement.appendChild(p);
+            }
+
+
+            this.activeLink = null;
             this.deactivate();
-            this.activeObject = this.createArrow(this.x, this.y)
+            this.activeObject = this.createArrow(this.x, this.y);
+            this.activeObject.start = p;
             this.isDrawing = true;
         }
         //===================================select object========================
@@ -539,12 +602,22 @@ function DrawCnvas(svg, images, editcontrol) {
             return;
         if (this.isDrawing) {
             if (this.mode == "line") {
+                if (e.target.parentElement.tagName == "g")
+                    this.activeLink = e.target.parentElement;
+
+                else
+                    this.activeLink = null;
+
                 this.renderArrow(this.activeObject, this.x, this.y, e.offsetX, e.offsetY);
             }
             if (this.mode == "move") {
                 moveElement(this.activeObject, e.offsetX - this.x, e.offsetY - this.y);
                 this.x = e.offsetX;
                 this.y = e.offsetY;
+                if (this.activeObject.dataset.type!="arrow")
+                    this.updateArrow();
+                else
+                    this.setStartArrow(this.activeObject);    
             }
         }
         if (this.isResize) {
@@ -557,7 +630,14 @@ function DrawCnvas(svg, images, editcontrol) {
             this.x = e.offsetX;
             this.y = e.offsetY;
             if (this.activeObject.dataset.type == "arrow")
-                this.mSVG.appendChild(this.activeObject);
+            {
+                //this.mSVG.appendChild(this.activeObject);
+                this.setStartArrow(this.activeObject);
+            }
+            else
+            {
+                this.updateArrow();
+            }    
         }
     });
 

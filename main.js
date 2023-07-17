@@ -17,6 +17,7 @@ let imurl = "/svg/list2.svg";
 //let imurl = "/svg/usalow.svg";
 //let imurl = "/svg/australiaLow.svg";
 //let imurl = "/svg/test7.svg";
+//let imurl = "/svg/Plan.svg";
 
 let fileinput = document.createElement("input");
 fileinput.setAttribute("type", "file");
